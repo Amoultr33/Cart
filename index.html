@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart + Receipts</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Purchase Intake PWA</p>
+      <h1>Cart + Receipts</h1>
+      <p class="subtitle">Upload receipts now. Feed inventory later.</p>
+    </div>
+    <button id="installBtn" class="ghost hidden">Install</button>
+  </header>
+
+  <main>
+    <nav class="tabs" aria-label="Main sections">
+      <button class="tab active" data-section="receipts">Receipts</button>
+      <button class="tab" data-section="cart">Cart</button>
+      <button id="addSectionBtn" class="tab add-tab" type="button">+ Section</button>
+    </nav>
+
+    <section id="receipts" class="section active-section">
+      <div class="panel intro-panel">
+        <h2>Receipt Upload</h2>
+        <p>Upload a receipt photo or PDF. The original file is saved, and AI parsing can be connected through the Supabase Edge Function included in this project.</p>
+      </div>
+
+      <form id="receiptForm" class="panel form-grid">
+        <label>
+          Store name
+          <input id="storeName" type="text" placeholder="Target, Walmart, Aldi..." />
+        </label>
+        <label>
+          Receipt date
+          <input id="receiptDate" type="date" />
+        </label>
+        <label>
+          Total
+          <input id="receiptTotal" type="number" step="0.01" placeholder="0.00" />
+        </label>
+        <label>
+          Payment method
+          <input id="paymentMethod" type="text" placeholder="Cash, debit, EBT, card ending..." />
+        </label>
+        <label class="full">
+          Receipt photo/PDF
+          <input id="receiptFile" type="file" accept="image/*,.pdf" required />
+        </label>
+        <label class="full">
+          Notes
+          <textarea id="receiptNotes" placeholder="Anything you want to remember about this trip..."></textarea>
+        </label>
+        <div class="full button-row">
+          <button type="submit">Save Receipt</button>
+          <button id="parseBtn" type="button" class="secondary">Save + Try AI Parse</button>
+        </div>
+      </form>
+
+      <div class="panel">
+        <div class="section-title-row">
+          <h2>Ongoing Item List</h2>
+          <button id="refreshBtn" class="ghost" type="button">Refresh</button>
+        </div>
+        <div id="status" class="status">Connect Supabase in app.js, then upload your first receipt.</div>
+        <div id="itemsList" class="items-list"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Saved Receipts</h2>
+        <div id="receiptsList" class="receipt-list"></div>
+      </div>
+    </section>
+
+    <section id="cart" class="section">
+      <div class="panel placeholder">
+        <h2>Cart</h2>
+        <p>This section is intentionally a placeholder for now. Later it can hold shopping lists, planned purchases, wishlist items, price checks, or store-specific carts.</p>
+      </div>
+    </section>
+
+    <section id="customSections" class="custom-sections"></section>
+  </main>
+
+  <template id="customSectionTemplate">
+    <section class="section custom-section active-section">
+      <div class="panel placeholder">
+        <h2></h2>
+        <p>New section placeholder. You can build this out later without touching the Receipts foundation.</p>
+      </div>
+    </section>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
